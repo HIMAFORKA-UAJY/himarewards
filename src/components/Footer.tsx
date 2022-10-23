@@ -1,19 +1,14 @@
-import { Box } from "@mui/material";
+import { FC } from "react";
+import { Typography } from "@mui/material";
 
-const Footer = () => {
+const Footer: FC = () => {
     return (
         <>
-            <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                padding="12px"
-            >
-                <span>
+            <Typography align="center" variant="body1" component="span">
+                <strong>
                     Copyright {new Date().getFullYear()} Himaforka UAJY
-                </span>
-            </Box>
+                </strong>
+            </Typography>
         </>
     );
 };

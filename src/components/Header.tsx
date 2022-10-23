@@ -1,23 +1,16 @@
-import { Typography, Box } from "@mui/material";
+import { FC } from "react";
+import { Typography } from "@mui/material";
 
-const Header = () => {
+const Header: FC = () => {
     return (
         <>
-            <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                padding="12px"
-            >
-                <img src="/assets/images/logo.png" alt="Logo HIMAFORKA" width="180" />
-                <Typography variant="h4">
-                    Leaderboard HIMA Rewards
-                </Typography>
-                <div>
-                    HIMA Rewards merupakan program kerja dari Himaforka UAJY yang bertujuan untuk menghitung jumlah poin yang dikumpulkan oleh mahasiswa informatika yang aktif dan ikut berpartisipasi dalam kegiatan yang di adakan oleh Himaforka.
-                </div>
-            </Box>
+            <Typography align="center" variant="h2">
+                Leaderboard HIMA Rewards
+            </Typography>
+            <Typography align="center" variant="subtitle1">
+                HIMA Rewards merupakan program kerja dari Himaforka UAJY yang bertujuan untuk menghitung jumlah poin yang dikumpulkan oleh mahasiswa informatika yang aktif dan ikut berpartisipasi dalam kegiatan yang di adakan oleh Himaforka.
+            </Typography>
+            <img src="/assets/images/logo.png" alt="Logo HIMAFORKA" width="180" />
         </>
     );
 

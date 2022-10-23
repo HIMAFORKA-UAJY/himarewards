@@ -1,16 +1,20 @@
+import { FC } from "react";
+
 import Header from "./components/Header";
 import Table from "./components/Table";
 import Footer from "./components/Footer";
-import { Container } from "@mui/material";
+import { Container, Stack } from "@mui/material";
 
-const App = () => {
+const App: FC = () => {
   return (
     <>
-      <Header />
       <Container>
-        <Table />
+        <Stack alignItems={"center"} justifyContent={"center"} padding={2} spacing={2}>
+          <Header />
+          <Table />
+          <Footer />
+        </Stack>
       </Container>
-      <Footer />
     </>
   );
 };

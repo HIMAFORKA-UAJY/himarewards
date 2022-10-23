@@ -1,4 +1,5 @@
-import * as React from "react";
+import { FC, Fragment, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
@@ -14,26 +15,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 
-interface Data {
-    nama: string;
-    npm: number;
-    email: string;
-    angkatan: number;
-    peringkat: number;
-    poin: {
-        kegiatan_tutor_uts: number;
-        workshop_internal: number;
-        sharing_alumni_series_1: number;
-        pengabdian_1: number;
-        sharing_alumni_series_2: number;
-        kegiatan_tutor_uas: number;
-        total_poin: number;
-    };
-}
+import { CircularProgress, Fade } from "@mui/material/";
 
-const createData = (
+interface Data {
+    no: number,
     nama: string,
-    npm: number,
+    npm: string,
     email: string,
     angkatan: number,
     peringkat: number,
@@ -45,24 +32,15 @@ const createData = (
         sharing_alumni_series_2: number,
         kegiatan_tutor_uas: number,
         total_poin: number;
-    }
-): Data => {
-    return {
-        nama,
-        npm,
-        email,
-        angkatan,
-        peringkat,
-        poin
     };
-};
+}
 
-const Row = (props: { row: ReturnType<typeof createData>; }) => {
+const Row = (props: { row: Data; }) => {
     const { row } = props;
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState<boolean>(false);
 
     return (
-        <React.Fragment>
+        <Fragment>
             <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
                 <TableCell>
                     <IconButton
@@ -114,53 +92,56 @@ const Row = (props: { row: ReturnType<typeof createData>; }) => {
                     </Collapse>
                 </TableCell>
             </TableRow>
-        </React.Fragment>
+        </Fragment>
     );
 };
 
 
-export default function rTable() {
-    const [rows, setRows] = React.useState<Array<Data>>([]);
+const rTable: FC = () => {
+    const [rows, setRows] = useState<Array<Data>>([]);
 
-    React.useEffect(() => {
+    const { } = useQuery(['rewards'], () => {
         fetch("https://himarewards-e2613.web.app/api/v1/himarewards")
             .then((response) => response.json())
             .then((json) => {
-                json.map((data: any) => {
-                    setRows(prev => [...prev, createData(
-                        String(data[1]), Number(data[2]), String(data[3]), Number(data[4]), Number(data[12]), {
-                        kegiatan_tutor_uts: Number(data[5]),
-                        workshop_internal: Number(data[6]),
-                        sharing_alumni_series_1: Number(data[7]),
-                        pengabdian_1: Number(data[8]),
-                        sharing_alumni_series_2: Number(data[9]),
-                        kegiatan_tutor_uas: Number(data[10]),
-                        total_poin: Number(data[11])
-                    }
-                    )]);
+                json.map((data: Data) => {
+                    setRows(prev => [...prev, data]);
                 });
             });
-    }, []);
+    }
+    );
 
     return (
-        <TableContainer component={Paper}>
-            <Table aria-label="collapsible table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell />
-                        <TableCell align="left">Nama</TableCell>
-                        <TableCell align="center">NPM</TableCell>
-                        <TableCell align="center">Email</TableCell>
-                        <TableCell align="center">Angkatan</TableCell>
-                        <TableCell align="center">Peringkat</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row) => (
-                        <Row key={row.npm * Math.random()} row={row} />
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <>
+            {rows.length == 0 ?
+                <CircularProgress />
+                :
+                <Fade in={true} timeout={1000}>
+                    <TableContainer component={Paper} sx={{ maxHeight: "100vh" }}>
+                        <Table aria-label="collapsible table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell />
+                                    <TableCell align="left">Nama</TableCell>
+                                    <TableCell align="center">NPM</TableCell>
+                                    <TableCell align="center">Email</TableCell>
+                                    <TableCell align="center">Angkatan</TableCell>
+                                    <TableCell align="center">Peringkat</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {rows.map((row) => (
+                                    <Row key={row.no * Math.random()} row={row} />
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Fade>
+            }
+
+        </>
     );
-}
+};
+
+export default rTable;
+
