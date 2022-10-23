@@ -101,7 +101,8 @@ const rTable: FC = () => {
     const [rows, setRows] = useState<Array<Data>>([]);
 
     const { } = useQuery(['rewards'], () => {
-        fetch("https://himarewards-e2613.web.app/api/v1/himarewards")
+        const API_HOST: string = import.meta.env.VITE_API_HOST ? import.meta.env.VITE_API_HOST : "";
+        fetch(`${API_HOST}/api/v1/himarewards`)
             .then((response) => response.json())
             .then((json) => {
                 json.map((data: Data) => {
