@@ -51,6 +51,15 @@ const getRewards = async () => {
     let returnData: Data[] = [];
 
     sheetData.data.values?.forEach((data) => {
+        if (data.length != 13) return;
+
+        let isDataEmpty: boolean = false;
+        [...Array(data.length).keys()].forEach((i) => {
+            if (data[i].toString().length == 0) return isDataEmpty = true;
+            return;
+        });
+        if (isDataEmpty) return;
+
         returnData.push({
             "no": Number(data[0]),
             "nama": String(data[1]),
