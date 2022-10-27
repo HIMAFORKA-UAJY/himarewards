@@ -105,6 +105,7 @@ const rTable: FC = () => {
         fetch(`${API_HOST}/api/v1/himarewards`)
             .then((response) => response.json())
             .then((json) => {
+                setRows([]);
                 json.map((data: Data) => {
                     setRows(prev => [...prev, data]);
                 });
