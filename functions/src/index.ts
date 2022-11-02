@@ -46,7 +46,7 @@ const getRewards = async () => {
     let sheetData = await googleSheets.spreadsheets.values.get({
         auth,
         spreadsheetId,
-        range: "'1'!B6:N67",
+        range: "'1'!B6:N269",
     });
     let returnData: Data[] = [];
 
